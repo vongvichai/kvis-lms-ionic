@@ -11,7 +11,7 @@ class App {
         this.signin = new Signin(body);
         this.signup = new Signup(body);
         this.user = new User(body);
-        this.slips = new Slips(body);
+        // this.slips = new Slips(body);
         this.menu = new Menu(footer);
     }
     init() {
