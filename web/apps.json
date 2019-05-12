@@ -1,0 +1,7 @@
+{
+    "apps": {
+        "name": "payslip-web",
+        "script": "npm",
+        "args": "start"
+    }
+}

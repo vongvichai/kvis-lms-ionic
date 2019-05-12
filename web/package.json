@@ -1,0 +1,21 @@
+{
+    "name": "kvis-lms-web",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "start": "npm run build && npm run server",
+        "server": "http-server public -p 3001",
+        "build": "browserify src -t babelify -o public/js/app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "dependencies": {
+        "babel-preset-env": "^1.7.0",
+        "babelify": "^7.2.0",
+        "browser-request": "^0.3.3",
+        "browserify": "^13.0.0",
+        "http-server": "^0.11.1",
+        "numeral": "^2.0.6",
+        "tiny-emitter": "^1.2.0"
+    }
+}
