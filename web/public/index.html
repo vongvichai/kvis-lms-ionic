@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>YSS - Pay Slip</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- Import the Ionic CSS -->
+    <link rel="stylesheet" href="core/css/ionic.bundle.css">
+    <link rel="stylesheet" href="css/maitree-font.css">
+    <script src="core/dist/ionic.js"></script>
+    <script src="js/app.js" async defer></script>
+    <style>
+        html.md {
+            --ion-default-font: 'Maitree', sans-serif, "Roboto", "Helvetica Neue";
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <ion-app>
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-buttons slot="start">
+                    <div class="buttons">
+                        <ion-button data-contact style="visibility: hidden">
+                            <ion-icon slot="icon-only" name="contact"></ion-icon>
+                        </ion-button>
+                    </div>
+                </ion-buttons>
+                <ion-buttons slot="end">
+                    <ion-button data-logout style="visibility: hidden">
+                        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+                        Log Out
+                    </ion-button>
+                </ion-buttons>
+                <ion-title text-center>KVIS Leaves Management System</ion-title>
+            </ion-toolbar>
+        </ion-header>
+
+        <ion-content padding>
+            <main></main>
+            <footer></footer>
+        </ion-content>
+    </ion-app>
+    <!-- Optional, import the Ionic icons -->
+    <!-- <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script> -->
+
+</body>
+
+</html>

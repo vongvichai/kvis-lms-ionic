@@ -1,0 +1,8 @@
+/* Your local CSS File */
+
+@font-face {
+    font-family: 'Maitree';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Maitree'), local('Maitree'), url(../fonts/Maitree/Maitree-Regular.ttf) format('truetype'), url(../fonts/Maitree/Maitree-Regular.woff) format('woff');
+}
