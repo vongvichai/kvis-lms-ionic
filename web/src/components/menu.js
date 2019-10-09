@@ -19,14 +19,14 @@ class Menu extends NTask {
     }
     pathsClick() {
         const links = this.body.querySelectorAll("[data-path]");
-        for (let i = 0, max = links.length; i < max; i++) {
-            links[i].addEventListener("click", (e) => {
+        [...links].map(link => {
+            link.addEventListener("click", (e) => {
                 e.preventDefault();
                 const link = e.target.parentElement;
                 const path = link.getAttribute("data-path");
                 this.emit("click", path);
             });
-        }
+        })
     }
     logoutClick() {
         const link = this.body.querySelector("[data-logout]");

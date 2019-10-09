@@ -1,3 +1,7 @@
+web/node_modules
+web/public/js/app.js
+api/node_modules
+api/logs
 # Logs
 logs
 *.log
@@ -59,3 +63,10 @@ typings/
 
 # next.js build output
 .next
+
+api/kvislms-test.sqlite
+api/kvislms.sqlite
+web/src/components/slips.js
+web/src/templates/slip.js
+web/src/templates/slips.js
+api/package-lock.json

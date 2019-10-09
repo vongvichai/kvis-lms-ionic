@@ -34,14 +34,7 @@ class Signin extends NTask {
                 if (err || resp.status === 401) {
                     this.emit("error", err);
                 } else {
-                    data.email = email.value;
-                    this.getUser(email.value)
-                        .then(user => {
-                            data.fullname = user.name + ' ' + user.surname;
-                            this.emit("signin", data);
-                        }).catch(err => {
-                            this.emit("error", err);
-                        });
+                    this.emit("signin", data.token);
                 }
             });
         });

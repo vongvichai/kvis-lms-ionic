@@ -1,0 +1,7 @@
+{
+    "apps": {
+        "name": "lms-api",
+        "script": "npm",
+        "args": "start"
+    }
+}
