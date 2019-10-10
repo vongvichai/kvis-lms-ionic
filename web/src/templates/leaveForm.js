@@ -47,30 +47,37 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row radio-group>
+                    <ion-radio-group>
+                        <ion-row> 
+                            <ion-col size="3">
+                                <ion-item>
+                                    <ion-label>ขาออก:</ion-label>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-radio data-shuttle_bus></ion-radio>
+                                    <ion-label> จองรถรับส่ง</ion-label>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-radio data-oneself></ion-radio>
+                                    <ion-label> เดินทางเอง</ion-label>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-radio data-not_record></ion-radio>
+                                    <ion-label> ไม่บันทึก</ion-label>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </ion-radio-group>
+                    <ion-row data-depart_shuttle_bus>
                         <ion-col>
                             <ion-item>
-                                <ion-radio type="text" data-shuttle_bus></ion-radio>
-                                <ion-label>จองรถรับส่ง</ion-label>
-                            </ion-item>
-                        </ion-col>
-                        <ion-col>
-                            <ion-item>
-                                <ion-radio type="text" data-oneself></ion-radio>
-                                <ion-label>เดินทางเอง</ion-label>
-                            </ion-item>
-                        </ion-col>
-                        <ion-col>
-                            <ion-item>
-                                <ion-radio type="text" data-not_record></ion-radio>
-                                <ion-label>ไม่บันทึก</ion-label>
-                            </ion-item>
-                        </ion-col>
-                    </ion-row radio-group>
-                    <ion-row>
-                        <ion-col>
-                            <ion-item>
-                                <ion-label position="floating">data-depart_trip_id</ion-label>
+                                <ion-label position="floating">กำหนดเวลารถออก:</ion-label>
                                 <ion-select required interface="popover" data-depart_trip_id>
                                     <ion-select-option value="1">2019-09-28 8:30</ion-select-option>
                                     <ion-select-option value="2">2019-09-28 17:00</ion-select-option>
@@ -80,7 +87,7 @@ exports.render = () => {
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">สถานี:</ion-label>
-                                <ion-select required interface="popover" data-station_id>
+                                <ion-select required interface="popover" data-depart_station_id>
                                     <ion-select-option value="1">PPT Head Office</ion-select-option>
                                     <ion-select-option value="2">Suwannaphumi Airport</ion-select-option>
                                     <ion-select-option value="3">Don Maueng Airport</ion-select-option>
@@ -88,7 +95,21 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row>
+                    <ion-row data-depart_oneself>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="floating">เดินทาง:วันที่</ion-label>
+                                <ion-datetime display-format="DD MMM YYYY"></ion-datetime>
+                            </ion-item>
+                        </ion-col>                        
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="floating">เวลา</ion-label>
+                                <ion-datetime display-format="HH:MM"></ion-datetime>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row data_depart_pickup>
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">รับกลับโดย:</ion-label>

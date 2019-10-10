@@ -24,8 +24,8 @@ const getLeaveById = (id) => {
                     name: 'PTT Head Office'
                 }
             },
-            pickupBy: 1,
-            pickupInfo: "You have to get home alone."
+            by: 1,
+            info: "You have to get home alone."
         },
         arrive: {
             by: 1, //shuttle bus
