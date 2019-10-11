@@ -7,8 +7,10 @@ exports.render = () => {
                     <ion-row>
                         <ion-col col-6>
                             <ion-item>
-                                <ion-label position="floating">เลขที่คำขอ:</ion-label>
-                                <ion-input type="text" required readonly data-id></ion-input>
+                                <ion-label position="floating">เลขที่/วันที่คำขอ:</ion-label>
+                                <ion-select required interface="popover" data-id>
+                                    <ion-select-option value=null>เพิ่มใหม่</ion-select-option>
+                                </ion-select>
                             </ion-item>
                         </ion-col>
                         <ion-col col-6>

@@ -1,4 +1,4 @@
-const getLeaveById = (id) => {
+const getLeave = (id) => {
     return {
         id: 345,
         date: '2019-09-23 13:20:00',
@@ -51,10 +51,9 @@ const getByParentId = parentId => {
 
 }
 
-const getDepartTripById = () => {
+const getDepartTrip = (id) => {
     return {
         id: 12,
-        travelBy: 1, //shuttle bus
         trips: [{
             id: 17,
             date: '2019-09-27 17:00:00'
@@ -63,21 +62,20 @@ const getDepartTripById = () => {
             date: '2019-09-28 08:30:00'
         }],
         stations: [{
-            id: 1,
-            name: 'PTT Head Office'
-        }, {
-            id: 2,
-            name: 'Suwannaphi Airport'
-        }], //PTT Head Office,
-        by: 1, //Myself
-        info: 'By somebody'
+                id: 1,
+                name: 'PTT Head Office'
+            }, {
+                id: 2,
+                name: 'Suwannaphi Airport'
+            }] //PTT Head Office
     }
 }
 
-const getArriveTripById = () => {
+const getArrive = (id) => {
 
 }
 
 export {
-    getLeaveById
+    getLeave,
+    getDepartTrip
 };

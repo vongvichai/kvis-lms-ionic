@@ -1,6 +1,7 @@
 import NTask from "../ntask.js";
 import Template from "../templates/leaveForm.js";
-import { getLeaveById } from "./leaveServices.js"
+import { getLeave, getDepartTrip } from "./leaveServices.js"
+import moment from "moment";
 
 class LeaveForm extends NTask {
     constructor(body) {
@@ -8,15 +9,16 @@ class LeaveForm extends NTask {
         this.body = body;
     }
     async render() {
-        let leave = getLeaveById(0);
+        let leave = getLeave(0),
+            departTrip = getDepartTrip(0);
 
         let student = leave.student,
             parent = leave.parent,
             depart = leave.depart,
             arrive = leave.arrive;
         this.body.innerHTML = await Template.render();
-        this.body.querySelector("[data-id]").value = leave.id;
-        this.body.querySelector("[data-date]").value = leave.date;
+        this.body.querySelector("[data-id]").value = "null"; //leave.id;
+        this.body.querySelector("[data-date]").value = moment(new Date()).format("YYYY-MM-DD HH:MM:SS");
         this.body.querySelector("[data-reason]").value = leave.reason;
         this.body.querySelector("[data-remarks]").value = leave.remarks;
         // this.body.querySelector("[data-student_id]").value = student.id;
@@ -99,6 +101,12 @@ class LeaveForm extends NTask {
             this.body.querySelector("[data-depart_shuttle_bus]").hidden = true;
             this.body.querySelector("[data_depart_pickup]").hidden = true;
         })
+    }
+    getLeaves(parent_id) {
+        return {
+
+        }
+
     }
 }
 
