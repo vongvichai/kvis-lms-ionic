@@ -25,7 +25,7 @@ module.exports = (sequelize, DataType) => {
             type: DataType.DATE
         },
         pickupBy: {
-            type: DataType.ENUM('กลับเอง', 'ผุ้ปกครอง', 'บุคลลอื่น')
+            type: DataType.ENUM('กลับเอง', 'ผู้ปกครอง', 'บุคลลอื่น')
         },
         leaveInfo: {
             type: DataType.STRING
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataType) => {
             type: DataType.DATE
         },
         dropBy: {
-            type: DataType.ENUM('กลับเอง', 'ผุ้ปกครอง', 'บุคลลอื่น')
+            type: DataType.ENUM('กลับเอง', 'ผู้ปกครอง', 'บุคลลอื่น')
         },
         returnInfo: {
             type: DataType.STRING

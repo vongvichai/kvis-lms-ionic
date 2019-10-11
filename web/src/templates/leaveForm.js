@@ -51,27 +51,22 @@ exports.render = () => {
                     </ion-row>
                     <ion-radio-group>
                         <ion-row> 
-                            <ion-col size="3">
+                            <ion-col col-4>
                                 <ion-item>
-                                    <ion-label>ขาออก:</ion-label>
+                                    <ion-checkbox slot="start" color="primary" data-depart_record checked></ion-checkbox>
+                                    <ion-label> ขาออก:</ion-label>
                                 </ion-item>
                             </ion-col>
                             <ion-col>
                                 <ion-item>
-                                    <ion-radio data-shuttle_bus></ion-radio>
+                                    <ion-radio slot="start" data-shuttle_bus></ion-radio>
                                     <ion-label> จองรถรับส่ง</ion-label>
                                 </ion-item>
                             </ion-col>
                             <ion-col>
                                 <ion-item>
-                                    <ion-radio data-oneself></ion-radio>
+                                    <ion-radio slot="start" data-oneself></ion-radio>
                                     <ion-label> เดินทางเอง</ion-label>
-                                </ion-item>
-                            </ion-col>
-                            <ion-col>
-                                <ion-item>
-                                    <ion-radio data-not_record></ion-radio>
-                                    <ion-label> ไม่บันทึก</ion-label>
                                 </ion-item>
                             </ion-col>
                         </ion-row>

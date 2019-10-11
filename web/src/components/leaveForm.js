@@ -84,7 +84,7 @@ class LeaveForm extends NTask {
     departClick() {
         const shuttle_bus = this.body.querySelector("[data-shuttle_bus]");
         const oneself = this.body.querySelector("[data-oneself]");
-        const not_record = this.body.querySelector("[data-not_record]");
+        const depart_record = this.body.querySelector("[data-depart_record]");
         //
         shuttle_bus.addEventListener("click", e => {
             this.body.querySelector("[data-depart_shuttle_bus]").hidden = false;
@@ -96,10 +96,23 @@ class LeaveForm extends NTask {
             this.body.querySelector("[data-depart_shuttle_bus]").hidden = true;
             this.body.querySelector("[data_depart_pickup]").hidden = false;
         });
-        not_record.addEventListener("click", e => {
-            this.body.querySelector("[data-depart_oneself]").hidden = true;
-            this.body.querySelector("[data-depart_shuttle_bus]").hidden = true;
-            this.body.querySelector("[data_depart_pickup]").hidden = true;
+        depart_record.addEventListener("click", e => {
+            if (e.target.checked) {
+                if (shuttle_bus.checked) {
+                    shuttle_bus.click();
+                };
+                if (oneself.checked) {
+                    oneself.click();
+                }
+            } else {
+                this.body.querySelector("[data-depart_shuttle_bus]").hidden = !e.target.checked;
+                this.body.querySelector("[data-depart_oneself]").hidden = !e.target.checked;
+            }
+            shuttle_bus.hidden = !e.target.checked;
+            shuttle_bus.nextElementSibling.hidden = !e.target.checked;
+            oneself.hidden = !e.target.checked;
+            oneself.nextElementSibling.hidden = !e.target.checked;
+            this.body.querySelector("[data_depart_pickup]").hidden = !e.target.checked;
         })
     }
     getLeaves(parent_id) {
