@@ -54,7 +54,7 @@ module.exports = (sequelize, DataType) => {
     });
     Parents.associate = models => {
         Parents.belongsTo(models.Users);
-        Parents.belongsToMany(models.Students, { through: 'ParentStudent' });
+        Parents.belongsToMany(models.Students, { through: 'parent_student' });
     };
     return Parents;
 };
