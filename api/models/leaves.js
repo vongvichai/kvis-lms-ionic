@@ -29,8 +29,8 @@ module.exports = (sequelize, DataType) => {
         underscored: true
     });
     Leaves.associate = models => {
-        Leaves.hasOne(models.Parents);
-        Leaves.hasOne(models.Students);
+        Leaves.belongsTo(models.Parents);
+        Leaves.belongsTo(models.Students);
         Leaves.hasMany(models.LeaveDetails);
     };
 
