@@ -11,8 +11,8 @@ const Parents = sequelize.import("../models/parents.js");
 const Users = sequelize.import("../models/users.js");
 const Students = sequelize.import("../models/students.js");
 Parents.belongsTo(Users);
-Parents.belongsToMany(Students, { through: 'ParentStudent', onDelete: 'CASCADE' });
-Students.belongsToMany(Parents, { through: 'ParentStudent' });
+Parents.belongsToMany(Students, { through: 'parent_student', onDelete: 'CASCADE' });
+//Students.belongsToMany(Parents, { through: 'ParentStudent' });
 
 
 const parents_array = [
@@ -446,23 +446,23 @@ const parents_array = [
     { "student_id": "5900070", "name": "ปกรณ์", "surname": "ถาวร", "gender": "M", "phone": "081-6074297", "email": "pearl@pea.co.th", "password": "0816074297" }
 ];
 
-// Parents.sync({ force: true })
-//     .done(() => {
-//         parents_array.map(async p => {
-//             let parent = await Parents.create(p);
-//             let user = await Users.create({
-//                 name: `${parent.name} ${parent.surname}`,
-//                 email: `${parent.email}`,
-//                 password: `${parent.password}`,
-//                 role: "User"
-//             });
-//             parent.setUser(user);
-//             let student = await Students.findOne({ where: { code: p.student_id } });
-//             if (student) {
-//                 parent.addStudents([student]);
-//             } else console.log(p.student_id);
-//         });
-//     });
+Parents.sync({ force: true })
+    .done(() => {
+        parents_array.map(async p => {
+            let parent = await Parents.create(p);
+            let user = await Users.create({
+                name: `${parent.name} ${parent.surname}`,
+                email: `${parent.email}`,
+                password: `${parent.password}`,
+                role: "User"
+            });
+            parent.setUser(user);
+            let student = await Students.findOne({ where: { code: p.student_id } });
+            if (student) {
+                parent.addStudents([student]);
+            } else console.log(p.student_id);
+        });
+    });
 
 Parents.findAll({
     include: [Students, Users]
