@@ -21,42 +21,17 @@ module.exports = (sequelize, DataType) => {
         remarks: {
             type: DataType.STRING
         },
-        leaveDate: {
-            type: DataType.DATE
-        },
-        pickupBy: {
-            type: DataType.ENUM('กลับเอง', 'ผู้ปกครอง', 'บุคลลอื่น')
-        },
-        leaveInfo: {
-            type: DataType.STRING
-        },
-        returnDate: {
-            type: DataType.DATE
-        },
-        dropBy: {
-            type: DataType.ENUM('กลับเอง', 'ผู้ปกครอง', 'บุคลลอื่น')
-        },
-        returnInfo: {
-            type: DataType.STRING
+        cancelled: {
+            type: DataType.BOOLEAN
         }
     }, {
         timestamps: true,
         underscored: true
     });
     Leaves.associate = models => {
-        Leaves.belongsTo(models.Parents);
-        Leaves.belongsToMany(models.Students, {
-            through: "LeaveStudents"
-        });
-        Leaves.belongsTo(models.TimeTables, {
-            as: 'timeIn',
-            foreignKey: 'timeInId'
-        });
-
-        Leaves.belongsTo(models.TimeTables, {
-            as: 'timeOut',
-            foreignKey: 'timeOutId'
-        });
+        Leaves.hasOne(models.Parents);
+        Leaves.hasOne(models.Students);
+        Leaves.hasMany(models.LeaveDetails);
     };
 
     return Leaves;
