@@ -12,7 +12,7 @@ const Users = sequelize.import("../models/users.js");
 Users.sync({ force: true }).done(() => {
     Users.create({
             name: "admin",
-            email: "admin@kvis.co.th",
+            email: "admin@kvis.ac.th",
             password: "123456",
             role: "Admin"
         })
@@ -20,7 +20,7 @@ Users.sync({ force: true }).done(() => {
         .catch(error => console.log(error));
     Users.create({
             name: "staff",
-            email: "staff@kvis.co.th",
+            email: "staff@kvis.ac.th",
             password: "123456",
             role: "Staff"
         })
