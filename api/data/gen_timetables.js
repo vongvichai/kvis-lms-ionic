@@ -10,7 +10,7 @@ const sequelize = new Sequelize("", "", "", {
 const Stations = sequelize.import("../models/stations.js");
 const Schedules = sequelize.import("../models/schedules.js");
 const TimeTables = sequelize.import("../models/timeTables.js");
-TimeTables.belongsToMany(Stations, { through: 'TimeTableStations' });
+TimeTables.belongsToMany(Stations, { through: 'timeTable_station' });
 Schedules.hasMany(TimeTables);
 
 const schedules_array = [{
