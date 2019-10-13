@@ -25,7 +25,7 @@ module.exports = (sequelize, DataType) => {
         underscored: true
     });
     TimeTables.associate = models => {
-        TimeTables.belongsToMany(models.Stations, { through: 'TimeTableStations' });
+        TimeTables.belongsToMany(models.Stations, { through: 'timeTable_station' });
     }
     return TimeTables;
 };
