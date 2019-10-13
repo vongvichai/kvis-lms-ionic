@@ -16,8 +16,8 @@ module.exports = (sequelize, DataType) => {
         underscored: true
     });
     LeaveDetails.associate = models => {
-        LeaveDetails.hasMany(models.TimeTables);
-        LeaveDetails.hasMany(models.Stations);
+        LeaveDetails.belongsTo(models.TimeTables);
+        LeaveDetails.belongsTo(models.Stations);
     };
 
     return LeaveDetails;
