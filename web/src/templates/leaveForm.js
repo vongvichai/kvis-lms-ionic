@@ -53,7 +53,7 @@ exports.render = () => {
                         <ion-row> 
                             <ion-col col-4>
                                 <ion-item>
-                                    <ion-checkbox slot="start" color="primary" data-depart_record checked></ion-checkbox>
+                                    <ion-checkbox slot="start" color="primary" data-depart></ion-checkbox>
                                     <ion-label> ขาออก:</ion-label>
                                 </ion-item>
                             </ion-col>
@@ -65,19 +65,17 @@ exports.render = () => {
                             </ion-col>
                             <ion-col>
                                 <ion-item>
-                                    <ion-radio slot="start" data-oneself></ion-radio>
+                                    <ion-radio slot="start" data-self_arrange></ion-radio>
                                     <ion-label> เดินทางเอง</ion-label>
                                 </ion-item>
                             </ion-col>
                         </ion-row>
                     </ion-radio-group>
-                    <ion-row data-depart_shuttle_bus>
+                    <ion-row data-depart_schedule>
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">กำหนดเวลารถออก:</ion-label>
+                                <ion-label position="floating">เวลารถออก:</ion-label>
                                 <ion-select required interface="popover" data-depart_trip_id>
-                                    <ion-select-option value="1">2019-09-28 8:30</ion-select-option>
-                                    <ion-select-option value="2">2019-09-28 17:00</ion-select-option>
                                 </ion-select>
                             </ion-item>
                         </ion-col>
@@ -85,32 +83,29 @@ exports.render = () => {
                             <ion-item>
                                 <ion-label position="floating">สถานี:</ion-label>
                                 <ion-select required interface="popover" data-depart_station_id>
-                                    <ion-select-option value="1">PPT Head Office</ion-select-option>
-                                    <ion-select-option value="2">Suwannaphumi Airport</ion-select-option>
-                                    <ion-select-option value="3">Don Maueng Airport</ion-select-option>
                                 </ion-select>
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row data-depart_oneself>
+                    <ion-row data-depart_self_arrange>
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เดินทาง:วันที่</ion-label>
-                                <ion-datetime display-format="DD MMM YYYY"></ion-datetime>
+                                <ion-datetime data-depart_date display-format="DD MMM YYYY"></ion-datetime>
                             </ion-item>
                         </ion-col>                        
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เวลา</ion-label>
-                                <ion-datetime display-format="HH:MM"></ion-datetime>
+                                <ion-datetime data-depart_time display-format="HH:mm"></ion-datetime>
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row data_depart_pickup>
+                    <ion-row data-depart_pickup>
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">รับกลับโดย:</ion-label>
-                                <ion-select required interface="popover" data-depart_by>
+                                <ion-select required interface="popover" data-pickup>
                                     <ion-select-option value="1">กลับเอง</ion-select-option>
                                     <ion-select-option value="2">ผู้ปกครอง</ion-select-option>
                                     <ion-select-option value="9">บุคคลอื่น</ion-select-option>
@@ -120,7 +115,7 @@ exports.render = () => {
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">ชื่อสกุล/โทรศัพท์:</ion-label>
-                                <ion-input type="text" data-depart_info></ion-input>
+                                <ion-input type="text" data-pickup_info></ion-input>
                             </ion-item>
                         </ion-col>
                     </ion-row>
