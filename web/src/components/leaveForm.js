@@ -29,10 +29,10 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-date]").value = moment(new Date()).format("YYYY-MM-DD HH:MM:SS");
         this.body.querySelector("[data-reason]").value = leave.reason;
         this.body.querySelector("[data-remarks]").value = leave.remarks;
-        // this.body.querySelector("[data-student_id]").value = student.id;
-        this.body.querySelector("[data-student_full_name]").value = student.fullName;
-        // this.body.querySelector("[data-parent_id]").value = parent.id;
-        this.body.querySelector("[data-parent_full_name]").value = parent.fullName;
+        this.body.querySelector("[data-student_id]").value = student.id;
+        this.body.querySelector("[data-student_id]").textContent = student.fullName;
+        this.body.querySelector("[data-parent_id]").value = parent.id;
+        this.body.querySelector("[data-parent_id]").textContent = parent.fullName;
         // data-depart ขาออก
         this.body.querySelector("[data-depart]").checked = true;
         this.body.querySelector("[data-depart_shuttle_bus]").checked = true;

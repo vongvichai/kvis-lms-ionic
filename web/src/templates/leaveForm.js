@@ -24,14 +24,13 @@ exports.render = () => {
                         <ion-col col-6>
                             <ion-item>
                                 <ion-label position="floating">ชื่อ สกุลนักเรียน:</ion-label>
-                                <ion-input data-student_full_name>
-                                </ion-input>
+                                <ion-input data-student_id></ion-input>
                             </ion-item>
                         </ion-col>
                         <ion-col col-6>
                             <ion-item>
                                 <ion-label position="floating">ชื่อ สกุลผู้ปกครอง:</ion-label>
-                                <ion-input required data-parent_full_name></ion-input>
+                                <ion-input required data-parent_id></ion-input>
                             </ion-item>
                         </ion-col>
                     </ion-row>
