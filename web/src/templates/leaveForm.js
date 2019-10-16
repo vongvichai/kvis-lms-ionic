@@ -49,24 +49,25 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
+                    <!-- depart -->
                     <ion-radio-group>
                         <ion-row> 
                             <ion-col col-4>
-                                <ion-item>
+                                <ion-item class="light-back" color="light">
                                     <ion-checkbox slot="start" color="primary" data-depart></ion-checkbox>
-                                    <ion-label> ขาออก:</ion-label>
+                                    <ion-label>ขาออก:</ion-label>
                                 </ion-item>
                             </ion-col>
                             <ion-col>
                                 <ion-item>
-                                    <ion-radio slot="start" data-shuttle_bus></ion-radio>
-                                    <ion-label> จองรถรับส่ง</ion-label>
+                                    <ion-radio slot="start" data-depart_shuttle_bus></ion-radio>
+                                    <ion-label>จองรถรับส่ง</ion-label>
                                 </ion-item>
                             </ion-col>
                             <ion-col>
                                 <ion-item>
-                                    <ion-radio slot="start" data-self_arrange></ion-radio>
-                                    <ion-label> เดินทางเอง</ion-label>
+                                    <ion-radio slot="start" data-depart_self_arrange></ion-radio>
+                                    <ion-label>เดินทางเอง</ion-label>
                                 </ion-item>
                             </ion-col>
                         </ion-row>
@@ -87,7 +88,7 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row data-depart_self_arrange>
+                    <ion-row data-depart_datetime>
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เดินทาง:วันที่</ion-label>
@@ -119,45 +120,75 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row>
+                    <!-- arrive -->
+                    <ion-radio-group>
+                        <ion-row> 
+                            <ion-col col-4>
+                                <ion-item class="light-back" color="light">
+                                    <ion-checkbox slot="start" color="primary" data-arrive></ion-checkbox>
+                                    <ion-label>ขากลับ:</ion-label>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-radio slot="start" required data-arrive_shuttle_bus></ion-radio>
+                                    <ion-label>จองรถรับส่ง</ion-label>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col>
+                                <ion-item>
+                                    <ion-radio slot="start" data-arrive_self_arrange></ion-radio>
+                                    <ion-label>เดินทางเอง</ion-label>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </ion-radio-group>
+
+                    <ion-row data-arrive_schedule>
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">arrive_id:</ion-label>
-                                <ion-input type="text" required data-arrive_id></ion-input>
+                                <ion-label position="floating">เวลารถออก:</ion-label>
+                                <ion-select required interface="popover" data-arrive_trip_id>
+                                </ion-select>
                             </ion-item>
                         </ion-col>
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">arrive_vehicle_id:</ion-label>
-                                <ion-input type="text" data-arrive_vehicle_id></ion-input>
+                                <ion-label position="floating">สถานี:</ion-label>
+                                <ion-select required interface="popover" data-arrive_station_id>
+                                </ion-select>
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row>
+                    <ion-row data-arrive_datetime>
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">arrive_trip_id:</ion-label>
-                                <ion-input type="text" required data-arrive_trip_id></ion-input>
+                                <ion-label position="floating">เดินทาง:วันที่</ion-label>
+                                <ion-datetime data-arrive_date display-format="DD MMM YYYY"></ion-datetime>
                             </ion-item>
-                        </ion-col>
+                        </ion-col>                        
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">arrive_station_id:</ion-label>
-                                <ion-input type="text" data-arrive_station_id></ion-input>
+                                <ion-label position="floating">เวลา</ion-label>
+                                <ion-datetime data-arrive_time display-format="HH:mm"></ion-datetime>
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row>
+                    <ion-row data-arrive_dropOff>
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">arrive_by:</ion-label>
-                                <ion-input type="text" required data-arrive_by></ion-input>
+                                <ion-label position="floating">มาส่งโดย:</ion-label>
+                                <ion-select required interface="popover" data-dropOff>
+                                    <ion-select-option value="1">กลับเอง</ion-select-option>
+                                    <ion-select-option value="2">ผู้ปกครอง</ion-select-option>
+                                    <ion-select-option value="9">บุคคลอื่น</ion-select-option>
+                                </ion-select>
                             </ion-item>
                         </ion-col>
                         <ion-col>
                             <ion-item>
-                                <ion-label position="floating">arrive_info:</ion-label>
-                                <ion-input type="text" data-arrive_info></ion-input>
+                                <ion-label position="floating">ชื่อสกุล/โทรศัพท์:</ion-label>
+                                <ion-input type="text" data-dropOff_info></ion-input>
                             </ion-item>
                         </ion-col>
                     </ion-row>

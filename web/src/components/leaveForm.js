@@ -6,6 +6,7 @@ import {
     getStudent,
     getParent,
     getDepartTrip,
+    getArriveTrip,
     getStation
 } from "./leaveServices.js"
 import moment from "moment";
@@ -19,6 +20,7 @@ class LeaveForm extends NTask {
         let leave = getLeave(0),
             [depart, arrive] = getLeaveDetail(),
             [departTrips, departStations] = getDepartTrip(0),
+            [arriveTrips, arriveStations] = getArriveTrip(0),
             student = getStudent(),
             parent = getParent();
         // arrive = leave.arrive;
@@ -33,8 +35,8 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-parent_full_name]").value = parent.fullName;
         // data-depart ขาออก
         this.body.querySelector("[data-depart]").checked = true;
-        this.body.querySelector("[data-shuttle_bus]").checked = true;
-        this.body.querySelector("[data-self_arrange]").checked = false;
+        this.body.querySelector("[data-depart_shuttle_bus]").checked = true;
+        this.body.querySelector("[data-depart_self_arrange]").checked = false;
         // data-depart_schedule
         let timeSelect = this.body.querySelector("[data-depart_trip_id]"); //depart.tripId;
         departTrips.map(trip => {
@@ -44,7 +46,7 @@ class LeaveForm extends NTask {
             timeSelect.appendChild(option);
         });
         timeSelect.value = depart.tripId;
-        let stationSelect = this.body.querySelector("[data-depart_station_id]"); //depart.stationId;
+        let stationSelect = this.body.querySelector("[data-depart_station_id]");
         departStations.map(station => {
             let option = document.createElement("ion-select-option");
             option.value = station.id;
@@ -52,25 +54,48 @@ class LeaveForm extends NTask {
             stationSelect.appendChild(option);
         });
         stationSelect.value = depart.stationId;
-        // data-self_arrange
+        // data-depart_self_arrange
         this.body.querySelector("[data-depart_date]").value = depart.date;
         this.body.querySelector("[data-depart_time]").value = depart.date;
         // data-depart_pickup
         this.body.querySelector("[data-pickup]").value = depart.pickup;
         this.body.querySelector("[data-pickup_info]").value = depart.pickupInfo;
-        //
-        this.body.querySelector("[data-arrive_trip_id]").value = arrive.tripId;
-        this.body.querySelector("[data-arrive_vehicle_id]").value = arrive.vehicleId;
-        this.body.querySelector("[data-arrive_station_id]").value = arrive.stationId;
-        this.body.querySelector("[data-arrive_by]").value = arrive.by;
-        this.body.querySelector("[data-arrive_info]").value = arrive.info;
+        // data-arrive ขากลับ
+        this.body.querySelector("[data-arrive]").checked = true;
+        this.body.querySelector("[data-arrive_shuttle_bus]").checked = true;
+        this.body.querySelector("[data-arrive_self_arrange]").checked = false;
+        // data-arrive_schedule
+        timeSelect = this.body.querySelector("[data-arrive_trip_id]");
+        arriveTrips.map(trip => {
+            let option = document.createElement("ion-select-option");
+            option.value = trip.id;
+            option.textContent = trip.date;
+            timeSelect.appendChild(option);
+        });
+        timeSelect.value = arrive.tripId;
+        stationSelect = this.body.querySelector("[data-arrive_station_id]");
+        departStations.map(station => {
+            let option = document.createElement("ion-select-option");
+            option.value = station.id;
+            option.textContent = station.name;
+            stationSelect.appendChild(option);
+        });
+        stationSelect.value = arrive.stationId;
+        // data-arrive_self_arrange
+        this.body.querySelector("[data-arrive_date]").value = arrive.date;
+        this.body.querySelector("[data-arrive_time]").value = arrive.date;
+        // data-depart_pickup
+        this.body.querySelector("[data-dropOff]").value = arrive.dropOff;
+        this.body.querySelector("[data-dropOff_info]").value = arrive.dropOff_info;
         this.addEventListener();
         //
-        this.body.querySelector("[data-shuttle_bus]").click();
+        this.body.querySelector("[data-depart_shuttle_bus]").click();
+        this.body.querySelector("[data-arrive_shuttle_bus]").click();
     }
     addEventListener() {
         this.formSubmit();
         this.departClick();
+        this.arriveClick();
     }
     formSubmit() {
         const form = this.body.querySelector("form");
@@ -111,17 +136,17 @@ class LeaveForm extends NTask {
         });
     }
     departClick() {
-        const shuttle_bus = this.body.querySelector("[data-shuttle_bus]");
-        const self_arrange = this.body.querySelector("[data-self_arrange]");
+        const shuttle_bus = this.body.querySelector("[data-depart_shuttle_bus]");
+        const self_arrange = this.body.querySelector("[data-depart_self_arrange]");
         const depart = this.body.querySelector("[data-depart]");
         //
         shuttle_bus.addEventListener("click", e => {
             this.body.querySelector("[data-depart_schedule]").hidden = false;
-            this.body.querySelector("[data-depart_self_arrange]").hidden = true;
+            this.body.querySelector("[data-depart_datetime]").hidden = true;
             this.body.querySelector("[data-depart_pickup]").hidden = false;
         });
         self_arrange.addEventListener("click", e => {
-            this.body.querySelector("[data-depart_self_arrange]").hidden = false;
+            this.body.querySelector("[data-depart_datetime]").hidden = false;
             this.body.querySelector("[data-depart_schedule]").hidden = true;
             this.body.querySelector("[data-depart_pickup]").hidden = false;
         });
@@ -135,14 +160,48 @@ class LeaveForm extends NTask {
                 }
             } else {
                 this.body.querySelector("[data-depart_schedule]").hidden = !e.target.checked;
-                this.body.querySelector("[data-depart_self_arrange]").hidden = !e.target.checked;
+                this.body.querySelector("[data-depart_datetime]").hidden = !e.target.checked;
             }
             shuttle_bus.hidden = !e.target.checked;
             shuttle_bus.nextElementSibling.hidden = !e.target.checked;
             self_arrange.hidden = !e.target.checked;
             self_arrange.nextElementSibling.hidden = !e.target.checked;
             this.body.querySelector("[data-depart_pickup]").hidden = !e.target.checked;
-        })
+        });
+    }
+    arriveClick() {
+        const shuttle_bus = this.body.querySelector("[data-arrive_shuttle_bus]");
+        const self_arrange = this.body.querySelector("[data-arrive_self_arrange]");
+        const arrive = this.body.querySelector("[data-arrive]");
+        //
+        shuttle_bus.addEventListener("click", e => {
+            this.body.querySelector("[data-arrive_schedule]").hidden = false;
+            this.body.querySelector("[data-arrive_datetime]").hidden = true;
+            this.body.querySelector("[data-arrive_dropOff]").hidden = false;
+        });
+        self_arrange.addEventListener("click", e => {
+            this.body.querySelector("[data-arrive_datetime]").hidden = false;
+            this.body.querySelector("[data-arrive_schedule]").hidden = true;
+            this.body.querySelector("[data-arrive_dropOff]").hidden = false;
+        });
+        arrive.addEventListener("click", e => {
+            if (e.target.checked) {
+                if (shuttle_bus.checked) {
+                    shuttle_bus.click();
+                };
+                if (self_arrange.checked) {
+                    self_arrange.click();
+                }
+            } else {
+                this.body.querySelector("[data-arrive_schedule]").hidden = !e.target.checked;
+                this.body.querySelector("[data-arrive_datetime]").hidden = !e.target.checked;
+            }
+            shuttle_bus.hidden = !e.target.checked;
+            shuttle_bus.nextElementSibling.hidden = !e.target.checked;
+            self_arrange.hidden = !e.target.checked;
+            self_arrange.nextElementSibling.hidden = !e.target.checked;
+            this.body.querySelector("[data-arrive_dropOff]").hidden = !e.target.checked;
+        });
     }
     getLeaves(parent_id) {
         return {
