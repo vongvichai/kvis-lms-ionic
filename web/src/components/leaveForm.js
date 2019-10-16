@@ -25,7 +25,7 @@ class LeaveForm extends NTask {
             parent = getParent();
         // arrive = leave.arrive;
         this.body.innerHTML = await Template.render();
-        this.body.querySelector("[data-id]").value = "null"; //leave.id;
+        let id = this.body.querySelector("[data-id]").value = "null"; //leave.id;
         this.body.querySelector("[data-date]").value = moment(new Date()).format("YYYY-MM-DD HH:MM:SS");
         this.body.querySelector("[data-reason]").value = leave.reason;
         this.body.querySelector("[data-remarks]").value = leave.remarks;
@@ -91,6 +91,7 @@ class LeaveForm extends NTask {
         //
         this.body.querySelector("[data-depart_shuttle_bus]").click();
         this.body.querySelector("[data-arrive_shuttle_bus]").click();
+        this.body.querySelector("[data-cancel_row]").hidden = id == "null";
     }
     addEventListener() {
         this.formSubmit();
@@ -102,28 +103,58 @@ class LeaveForm extends NTask {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             const id = e.target.querySelector("[data-id]");
-            const name = e.target.querySelector("[data-name]");
-            const surname = e.target.querySelector("[data-surname]");
-            const gender = e.target.querySelector("[data-gender]");
-            const phone = e.target.querySelector("[data-phone]");
-            const email = e.target.querySelector("[data-email]");
-            const student_id = e.target.querySelector("[data-students]");
+            const date = e.target.querySelector("[data-date]");
+            const reason = e.target.querySelector("[data-reason]");
+            const remarks = e.target.querySelector("[data-remarks]");
+            const student_id = e.target.querySelector("[data-student_id]");
+            const parent_id = e.target.querySelector("[data-parent_id]");
+            const cancel = e.target.querySelector("[data-cancel]");
+            //
+            const depart_trip_id = this.body.querySelector("[data-depart_trip_id]");
+            const depart_station_id = this.body.querySelector("[data-depart_station_id]");
+            const depart_date = this.body.querySelector("[data-depart_date]");
+            const depart_pickup = this.body.querySelector("[data-pickup]");
+            const depart_pickup_info = this.body.querySelector("[data-pickup_info]");
+            //
+            const arrive_trip_id = this.body.querySelector("[data-arrive_trip_id]");
+            const arrive_station_id = this.body.querySelector("[data-arrive_station_id]");
+            const arrive_date = this.body.querySelector("[data-arrive_date]");
+            const arrive_dropOff = this.body.querySelector("[data-dropOff]");
+            const arrive_dropOff_info = this.body.querySelector("[data-dropOff_info]");
+
             const opts = {
                 method: "POST",
-                url: `${this.URL}/payments`,
+                url: `${this.URL}/leaves`,
                 json: true,
                 headers: {
                     authorization: localStorage.getItem("token")
                 },
                 body: {
                     id: id.value,
-                    name: name.value,
-                    surname: surname.value,
-                    gender: gender.value,
-                    phone: phone.value,
-                    email: email.value,
-                    student_id: student_id.value,
-                    user_id: user_id.value
+                    date: moment(date.value),
+                    type: 'Home Visiting',
+                    reason: id.value,
+                    remarks: remarks.value,
+                    studentId: student_id.value,
+                    parentId: parent_id.value,
+                    cancel: cancel.value,
+
+                    depart: {
+                        type: 'DEPART',
+                        tripId: depart_trip_id.value,
+                        stationId: depart_station_id.value,
+                        date: moment(depart_date.value),
+                        contact: depart_pickup.value,
+                        contactInfo: depart_pickup_info.value
+                    },
+                    arrive: {
+                        type: 'ARRIVE',
+                        tripId: arrive_trip_id.value,
+                        stationId: arrive_station_id.value,
+                        date: moment(arrive_date.value),
+                        contact: arrive_dropOff.value,
+                        contactInfo: arrive_dropOff_info.value
+                    }
                 }
             };
             this.request(opts, (err, resp, data) => {
