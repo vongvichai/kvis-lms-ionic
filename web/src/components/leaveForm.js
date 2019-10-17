@@ -38,7 +38,7 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-depart_shuttle_bus]").checked = true;
         this.body.querySelector("[data-depart_self_arrange]").checked = false;
         // data-depart_schedule
-        let timeSelect = this.body.querySelector("[data-depart_trip_id]"); //depart.tripId;
+        let timeSelect = this.body.querySelector("[data-depart_time_table_id]"); //depart.tripId;
         departTrips.map(trip => {
             let option = document.createElement("ion-select-option");
             option.value = trip.id;
@@ -65,7 +65,7 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-arrive_shuttle_bus]").checked = true;
         this.body.querySelector("[data-arrive_self_arrange]").checked = false;
         // data-arrive_schedule
-        timeSelect = this.body.querySelector("[data-arrive_trip_id]");
+        timeSelect = this.body.querySelector("[data-arrive_time_table_id]");
         arriveTrips.map(trip => {
             let option = document.createElement("ion-select-option");
             option.value = trip.id;
@@ -110,13 +110,13 @@ class LeaveForm extends NTask {
             const parent_id = e.target.querySelector("[data-parent_id]");
             const cancel = e.target.querySelector("[data-cancel]");
             //
-            const depart_trip_id = this.body.querySelector("[data-depart_trip_id]");
+            const depart_time_table_id = this.body.querySelector("[data-depart_time_table_id]");
             const depart_station_id = this.body.querySelector("[data-depart_station_id]");
             const depart_date = this.body.querySelector("[data-depart_date]");
             const depart_pickup = this.body.querySelector("[data-pickup]");
             const depart_pickup_info = this.body.querySelector("[data-pickup_info]");
             //
-            const arrive_trip_id = this.body.querySelector("[data-arrive_trip_id]");
+            const arrive_time_table_id = this.body.querySelector("[data-arrive_time_table_id]");
             const arrive_station_id = this.body.querySelector("[data-arrive_station_id]");
             const arrive_date = this.body.querySelector("[data-arrive_date]");
             const arrive_dropOff = this.body.querySelector("[data-dropOff]");
@@ -133,28 +133,29 @@ class LeaveForm extends NTask {
                     id: id.value,
                     date: moment(date.value),
                     type: 'Home Visiting',
-                    reason: id.value,
+                    reason: reason.value,
                     remarks: remarks.value,
                     studentId: student_id.value,
                     parentId: parent_id.value,
-                    cancel: cancel.value,
+                    cancelled: cancel.value,
 
-                    depart: {
-                        type: 'DEPART',
-                        tripId: depart_trip_id.value,
-                        stationId: depart_station_id.value,
-                        date: moment(depart_date.value),
-                        contact: depart_pickup.value,
-                        contactInfo: depart_pickup_info.value
-                    },
-                    arrive: {
-                        type: 'ARRIVE',
-                        tripId: arrive_trip_id.value,
-                        stationId: arrive_station_id.value,
-                        date: moment(arrive_date.value),
-                        contact: arrive_dropOff.value,
-                        contactInfo: arrive_dropOff_info.value
-                    }
+                    details: [{
+                            type: 'DEPART',
+                            timeTableId: depart_time_table_id.value,
+                            stationId: depart_station_id.value,
+                            date: moment(depart_date.value),
+                            contact: depart_pickup.value,
+                            contactInfo: depart_pickup_info.value
+                        },
+                        {
+                            type: 'ARRIVE',
+                            timeTableId: arrive_time_table_id.value,
+                            stationId: arrive_station_id.value,
+                            date: moment(arrive_date.value),
+                            contact: arrive_dropOff.value,
+                            contactInfo: arrive_dropOff_info.value
+                        }
+                    ]
                 }
             };
             this.request(opts, (err, resp, data) => {
@@ -238,7 +239,6 @@ class LeaveForm extends NTask {
         return {
 
         }
-
     }
 }
 

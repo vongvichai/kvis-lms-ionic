@@ -75,7 +75,7 @@ exports.render = () => {
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เวลารถออก:</ion-label>
-                                <ion-select required interface="popover" data-depart_trip_id>
+                                <ion-select required interface="popover" data-depart_time_table_id>
                                 </ion-select>
                             </ion-item>
                         </ion-col>
@@ -147,7 +147,7 @@ exports.render = () => {
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เวลารถออก:</ion-label>
-                                <ion-select required interface="popover" data-arrive_trip_id>
+                                <ion-select required interface="popover" data-arrive_time_table_id>
                                 </ion-select>
                             </ion-item>
                         </ion-col>
