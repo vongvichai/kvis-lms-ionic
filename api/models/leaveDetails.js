@@ -5,6 +5,13 @@ module.exports = (sequelize, DataType) => {
             primaryKey: true,
             autoIncrement: true
         },
+        type: {
+            type: DataType.ENUM('DEPART', 'ARRIVE'),
+            allowNull: false
+        },
+        date: {
+            type: DataType.DATE
+        },
         contact: {
             type: DataType.STRING
         },
