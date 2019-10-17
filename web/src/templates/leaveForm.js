@@ -191,10 +191,10 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
-                    <ion-row data-cancel_row>
+                    <ion-row data-cancelled_row>
                         <ion-col>
                             <ion-item>
-                                <ion-checkbox slot="start" data-cancel></ion-checkbox>
+                                <ion-checkbox slot="start" data-cancelled></ion-checkbox>
                                 <ion-label>ยกเลิก</ion-label>
                             </ion-item>
                         </ion-col>
