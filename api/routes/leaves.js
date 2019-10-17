@@ -4,7 +4,8 @@
 
 module.exports = app => {
     "use strict";
-    const Leaves = app.db.models.Leaves;
+    const Leaves = app.db.models.Leaves,
+        LeaveDetails = app.db.models.LeaveDetails;
 
     app.route("/leaves")
         .all(app.auth.authenticate())
@@ -17,7 +18,11 @@ module.exports = app => {
                 });
         })
         .post((req, res) => {
-            Leaves.create(req.body)
+            Leaves.create(req.body, {
+                    include: {
+                        association: Leaves.associations.LeaveDetails
+                    }
+                })
                 .then(result => res.json(result))
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
