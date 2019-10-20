@@ -15,7 +15,22 @@ module.exports = app => {
         .all(app.auth.authenticate())
         .get((req, res) => {
             // console.log(`req.body: ${req.body}`);
-            Leaves.findAll({ where: { user_id: req.user.id } })
+            Leaves.findAll({
+                    include: [{
+                        model: LeaveDetails,
+                        include: [{
+                            model: TimeTables
+                        }],
+                        include: [{
+                            model: Stations
+                        }]
+                    }, {
+                        model: Students
+                    }, {
+                        model: Parents
+                    }],
+                    raw: true
+                }) //{ where: { user_id: req.user.id } })
                 .then(result => res.json(result))
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
