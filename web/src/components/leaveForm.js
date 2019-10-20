@@ -32,16 +32,16 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-date]").value = moment(new Date()).format("YYYY-MM-DD HH:MM");
         this.body.querySelector("[data-reason]").value = leave.reason;
         this.body.querySelector("[data-remarks]").value = leave.remarks;
-        this.body.querySelector("[data-student_id]").value = student.id;
+        this.body.querySelector("[data-student_id]").value = leave.studentId;
         this.body.querySelector("[data-student_id]").textContent = student.fullName;
-        this.body.querySelector("[data-parent_id]").value = parent.id;
+        this.body.querySelector("[data-parent_id]").value = leave.parentId;
         this.body.querySelector("[data-parent_id]").textContent = parent.fullName;
         this.body.querySelector("[data-cancelled]").checked = leave.cancelled;
         ////////////////////////////////////////////
         // data-depart ขาออก //////////////////////
-        this.body.querySelector("[data-depart]").checked = !(depart == undefined);
-        this.body.querySelector("[data-depart_shuttle_bus]").checked = true;
-        this.body.querySelector("[data-depart_self_arrange]").checked = false;
+        this.body.querySelector("[data-depart]").checked = depart ? true : false;
+        this.body.querySelector("[data-depart_shuttle_bus]").checked = depart.timeTableId ? true : false;
+        this.body.querySelector("[data-depart_self_arrange]").checked = depart.date ? true : false;
         // data-depart_schedule
         let timeSelect = this.body.querySelector("[data-depart_time_table_id]");
         departTrips.map(trip => {
@@ -65,11 +65,12 @@ class LeaveForm extends NTask {
         // data-depart_pickup
         this.body.querySelector("[data-pickup]").value = depart.contact;
         this.body.querySelector("[data-pickup_info]").value = depart.contactInfo;
+
         ///////////////////////////////////////////
         // data-arrive ขากลับ /////////////////////
-        this.body.querySelector("[data-arrive]").checked = !(arrive == undefined);
-        this.body.querySelector("[data-arrive_shuttle_bus]").checked = false;
-        this.body.querySelector("[data-arrive_self_arrange]").checked = true;
+        this.body.querySelector("[data-arrive]").checked = arrive ? true : false;
+        this.body.querySelector("[data-arrive_shuttle_bus]").checked = arrive.timeTableId ? true : false;
+        this.body.querySelector("[data-arrive_self_arrange]").checked = arrive.date ? true : false;
         // data-arrive_schedule
         timeSelect = this.body.querySelector("[data-arrive_time_table_id]");
         arriveTrips.map(trip => {
@@ -95,8 +96,11 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-dropOff_info]").value = arrive.contactInfo;
         this.addEventListener();
         //
-        this.body.querySelector("[data-depart_schedule]").hidden = (depart.date == null);
-        this.body.querySelector("[data-arrive_schedule]").hidden = (arrive.date == null);
+        this.body.querySelector("[data-depart_schedule]").hidden = (depart.timeTableId == null);
+        this.body.querySelector("[data-depart_datetime]").hidden = (depart.date == null);
+        this.body.querySelector("[data-arrive_schedule]").hidden = (arrive.timeTableId == null);
+        this.body.querySelector("[data-arrive_datetime]").hidden = (arrive.date == null);
+
         this.body.querySelector("[data-cancelled_row]").hidden = (leave.id == null);
     }
     addEventListener() {
@@ -141,22 +145,22 @@ class LeaveForm extends NTask {
                     type: 'Weekend/Holiday',
                     reason: reason.value,
                     remarks: remarks.value,
-                    studentId: student_id.value,
-                    parentId: parent_id.value,
+                    studentId: parseInt(student_id.value),
+                    parentId: parseInt(parent_id.value),
                     cancelled: cancel.value,
 
-                    details: [{
+                    LeaveDetails: [{
                             type: 'DEPART',
-                            timeTableId: depart_time_table_id.value,
-                            stationId: depart_station_id.value,
+                            TimeTableId: depart_time_table_id.value,
+                            StationId: depart_station_id.value,
                             date: moment(depart_date.value),
                             contact: depart_pickup.value,
                             contactInfo: depart_pickup_info.value
                         },
                         {
                             type: 'ARRIVE',
-                            timeTableId: arrive_time_table_id.value,
-                            stationId: arrive_station_id.value,
+                            TimeTableId: arrive_time_table_id.value,
+                            StationId: arrive_station_id.value,
                             date: moment(arrive_date.value),
                             contact: arrive_dropOff.value,
                             contactInfo: arrive_dropOff_info.value
