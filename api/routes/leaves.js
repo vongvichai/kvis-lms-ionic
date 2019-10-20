@@ -5,7 +5,11 @@
 module.exports = app => {
     "use strict";
     const Leaves = app.db.models.Leaves,
-        LeaveDetails = app.db.models.LeaveDetails;
+        LeaveDetails = app.db.models.LeaveDetails,
+        Students = app.db.models.Students,
+        Parents = app.db.models.Parents,
+        TimeTables = app.db.models.TimeTables,
+        Stations = app.db.models.Stations;
 
     app.route("/leaves")
         .all(app.auth.authenticate())
@@ -19,11 +23,23 @@ module.exports = app => {
         })
         .post((req, res) => {
             Leaves.create(req.body, {
-                    include: {
-                        association: Leaves.associations.LeaveDetails
-                    }
+                    include: [LeaveDetails, Students, Parents
+                        // association: Leaves.associations.LeaveDetails
+                    ]
                 })
-                .then(result => res.json(result))
+                .then(async leave => {
+                    let student = await Students.findByPk(req.body.studentId);
+                    let parent = await Parents.findByPk(req.body.parentId);
+                    leave.setStudent(student);
+                    leave.setParent(parent);
+                    leave.LeaveDetails.map(async d => {
+                        let timeTable = await TimeTables.findByPk(d.TimeTableId);
+                        let station = await Stations.findByPk(d.StationId);
+                        d.setTimeTable(timeTable);
+                        d.setStation(station);
+                    });
+                    res.json(leave);
+                })
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
                 });
