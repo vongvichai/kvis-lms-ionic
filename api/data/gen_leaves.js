@@ -50,28 +50,49 @@ const leaves_array = [{
     ]
 }];
 
-LeaveDetails.sync({ force: true })
-    .done(() => {
-        Leaves.sync({ force: true })
-            .done(() => {
-                leaves_array.map(async l => {
-                    await Leaves.create(l, {
-                            include: [{
-                                association: Details,
-                                as: 'details'
-                            }]
-                        })
-                        .then(instance => {
-                            console.log(instance);
-                        });
-                });
-            });
-    });
 
-// Leaves.findAll({
-//         include: [LeaveDetails],
-//         attributes: []
-//     })
-//     .then(leaves => {
-//         console.log(leaves);
+// LeaveDetails.sync({ force: true })
+// Leaves.sync({ force: true })
+
+// LeaveDetails.sync({ force: true })
+//     .done(() => {
+//         Leaves.sync({ force: true })
+//             .done(() => {
+//                 leaves_array.map(async l => {
+//                     await Leaves.create(l, {
+//                             include: [{
+//                                 association: Details,
+//                                 as: 'details'
+//                             }]
+//                         })
+//                         .then(instance => {
+//                             console.log(instance);
+//                         });
+//                 });
+//             });
 //     });
+
+Leaves.findAll({
+        include: [{
+            model: LeaveDetails,
+            as: "details",
+            include: [{
+                model: TimeTables,
+                as: 'timeTable'
+            }],
+            include: [{
+                model: Stations,
+                as: 'station'
+            }]
+        }, {
+            model: Students,
+            as: "student"
+        }, {
+            model: Parents,
+            as: "parent"
+        }],
+        raw: true
+    })
+    .then(leaves => {
+        console.log(leaves);
+    });
