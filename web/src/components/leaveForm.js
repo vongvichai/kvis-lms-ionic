@@ -23,29 +23,34 @@ class LeaveForm extends NTask {
             [arriveTrips, arriveStations] = getArriveTrip(0),
             student = getStudent(),
             parent = getParent();
-        // arrive = leave.arrive;
+
         this.body.innerHTML = await Template.render();
-        this.body.querySelector("[data-id]").value = "null"; //leave.id;
-        this.body.querySelector("[data-date]").value = moment(new Date()).format("YYYY-MM-DD HH:MM:SS");
+        let idSelect = this.body.querySelector("[data-id]");
+        let opt = document.createElement("ion-select-option");
+        opt.value = opt.textContent = idSelect.value = leave.id;;
+        idSelect.appendChild(opt);
+        this.body.querySelector("[data-date]").value = moment(new Date()).format("YYYY-MM-DD HH:MM");
         this.body.querySelector("[data-reason]").value = leave.reason;
         this.body.querySelector("[data-remarks]").value = leave.remarks;
-        this.body.querySelector("[data-student_id]").value = student.id;
+        this.body.querySelector("[data-student_id]").value = leave.studentId;
         this.body.querySelector("[data-student_id]").textContent = student.fullName;
-        this.body.querySelector("[data-parent_id]").value = parent.id;
+        this.body.querySelector("[data-parent_id]").value = leave.parentId;
         this.body.querySelector("[data-parent_id]").textContent = parent.fullName;
-        // data-depart ขาออก
-        this.body.querySelector("[data-depart]").checked = true;
-        this.body.querySelector("[data-depart_shuttle_bus]").checked = true;
-        this.body.querySelector("[data-depart_self_arrange]").checked = false;
+        this.body.querySelector("[data-cancelled]").checked = leave.cancelled;
+        ////////////////////////////////////////////
+        // data-depart ขาออก //////////////////////
+        this.body.querySelector("[data-depart]").checked = depart ? true : false;
+        this.body.querySelector("[data-depart_shuttle_bus]").checked = depart.timeTableId ? true : false;
+        this.body.querySelector("[data-depart_self_arrange]").checked = depart.date ? true : false;
         // data-depart_schedule
-        let timeSelect = this.body.querySelector("[data-depart_trip_id]"); //depart.tripId;
+        let timeSelect = this.body.querySelector("[data-depart_time_table_id]");
         departTrips.map(trip => {
             let option = document.createElement("ion-select-option");
             option.value = trip.id;
             option.textContent = trip.date;
             timeSelect.appendChild(option);
         });
-        timeSelect.value = depart.tripId;
+        timeSelect.value = depart.timeTableId;
         let stationSelect = this.body.querySelector("[data-depart_station_id]");
         departStations.map(station => {
             let option = document.createElement("ion-select-option");
@@ -58,21 +63,23 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-depart_date]").value = depart.date;
         this.body.querySelector("[data-depart_time]").value = depart.date;
         // data-depart_pickup
-        this.body.querySelector("[data-pickup]").value = depart.pickup;
-        this.body.querySelector("[data-pickup_info]").value = depart.pickupInfo;
-        // data-arrive ขากลับ
-        this.body.querySelector("[data-arrive]").checked = true;
-        this.body.querySelector("[data-arrive_shuttle_bus]").checked = true;
-        this.body.querySelector("[data-arrive_self_arrange]").checked = false;
+        this.body.querySelector("[data-pickup]").value = depart.contact;
+        this.body.querySelector("[data-pickup_info]").value = depart.contactInfo;
+
+        ///////////////////////////////////////////
+        // data-arrive ขากลับ /////////////////////
+        this.body.querySelector("[data-arrive]").checked = arrive ? true : false;
+        this.body.querySelector("[data-arrive_shuttle_bus]").checked = arrive.timeTableId ? true : false;
+        this.body.querySelector("[data-arrive_self_arrange]").checked = arrive.date ? true : false;
         // data-arrive_schedule
-        timeSelect = this.body.querySelector("[data-arrive_trip_id]");
+        timeSelect = this.body.querySelector("[data-arrive_time_table_id]");
         arriveTrips.map(trip => {
             let option = document.createElement("ion-select-option");
             option.value = trip.id;
             option.textContent = trip.date;
             timeSelect.appendChild(option);
         });
-        timeSelect.value = arrive.tripId;
+        timeSelect.value = arrive.timeTableId;
         stationSelect = this.body.querySelector("[data-arrive_station_id]");
         departStations.map(station => {
             let option = document.createElement("ion-select-option");
@@ -85,12 +92,16 @@ class LeaveForm extends NTask {
         this.body.querySelector("[data-arrive_date]").value = arrive.date;
         this.body.querySelector("[data-arrive_time]").value = arrive.date;
         // data-depart_pickup
-        this.body.querySelector("[data-dropOff]").value = arrive.dropOff;
-        this.body.querySelector("[data-dropOff_info]").value = arrive.dropOff_info;
+        this.body.querySelector("[data-dropOff]").value = arrive.contact;
+        this.body.querySelector("[data-dropOff_info]").value = arrive.contactInfo;
         this.addEventListener();
         //
-        this.body.querySelector("[data-depart_shuttle_bus]").click();
-        this.body.querySelector("[data-arrive_shuttle_bus]").click();
+        this.body.querySelector("[data-depart_schedule]").hidden = (depart.timeTableId == null);
+        this.body.querySelector("[data-depart_datetime]").hidden = (depart.date == null);
+        this.body.querySelector("[data-arrive_schedule]").hidden = (arrive.timeTableId == null);
+        this.body.querySelector("[data-arrive_datetime]").hidden = (arrive.date == null);
+
+        this.body.querySelector("[data-cancelled_row]").hidden = (leave.id == null);
     }
     addEventListener() {
         this.formSubmit();
@@ -102,28 +113,59 @@ class LeaveForm extends NTask {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
             const id = e.target.querySelector("[data-id]");
-            const name = e.target.querySelector("[data-name]");
-            const surname = e.target.querySelector("[data-surname]");
-            const gender = e.target.querySelector("[data-gender]");
-            const phone = e.target.querySelector("[data-phone]");
-            const email = e.target.querySelector("[data-email]");
-            const student_id = e.target.querySelector("[data-students]");
+            const date = e.target.querySelector("[data-date]");
+            const reason = e.target.querySelector("[data-reason]");
+            const remarks = e.target.querySelector("[data-remarks]");
+            const student_id = e.target.querySelector("[data-student_id]");
+            const parent_id = e.target.querySelector("[data-parent_id]");
+            const cancel = e.target.querySelector("[data-cancelled]");
+            //
+            const depart_time_table_id = this.body.querySelector("[data-depart_time_table_id]");
+            const depart_station_id = this.body.querySelector("[data-depart_station_id]");
+            const depart_date = this.body.querySelector("[data-depart_date]");
+            const depart_pickup = this.body.querySelector("[data-pickup]");
+            const depart_pickup_info = this.body.querySelector("[data-pickup_info]");
+            //
+            const arrive_time_table_id = this.body.querySelector("[data-arrive_time_table_id]");
+            const arrive_station_id = this.body.querySelector("[data-arrive_station_id]");
+            const arrive_date = this.body.querySelector("[data-arrive_date]");
+            const arrive_dropOff = this.body.querySelector("[data-dropOff]");
+            const arrive_dropOff_info = this.body.querySelector("[data-dropOff_info]");
+
             const opts = {
                 method: "POST",
-                url: `${this.URL}/payments`,
+                url: `${this.URL}/leaves`,
                 json: true,
                 headers: {
                     authorization: localStorage.getItem("token")
                 },
                 body: {
                     id: id.value,
-                    name: name.value,
-                    surname: surname.value,
-                    gender: gender.value,
-                    phone: phone.value,
-                    email: email.value,
-                    student_id: student_id.value,
-                    user_id: user_id.value
+                    date: moment(date.value),
+                    type: 'Weekend/Holiday',
+                    reason: reason.value,
+                    remarks: remarks.value,
+                    studentId: parseInt(student_id.value),
+                    parentId: parseInt(parent_id.value),
+                    cancelled: cancel.value,
+
+                    LeaveDetails: [{
+                            type: 'DEPART',
+                            TimeTableId: depart_time_table_id.value,
+                            StationId: depart_station_id.value,
+                            date: moment(depart_date.value),
+                            contact: depart_pickup.value,
+                            contactInfo: depart_pickup_info.value
+                        },
+                        {
+                            type: 'ARRIVE',
+                            TimeTableId: arrive_time_table_id.value,
+                            StationId: arrive_station_id.value,
+                            date: moment(arrive_date.value),
+                            contact: arrive_dropOff.value,
+                            contactInfo: arrive_dropOff_info.value
+                        }
+                    ]
                 }
             };
             this.request(opts, (err, resp, data) => {
@@ -202,12 +244,6 @@ class LeaveForm extends NTask {
             self_arrange.nextElementSibling.hidden = !e.target.checked;
             this.body.querySelector("[data-arrive_dropOff]").hidden = !e.target.checked;
         });
-    }
-    getLeaves(parent_id) {
-        return {
-
-        }
-
     }
 }
 

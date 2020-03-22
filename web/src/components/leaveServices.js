@@ -2,8 +2,9 @@ const getLeave = (id) => {
     return {
         id: 345,
         date: '2019-09-23 13:20:00',
-        studentId: 1001,
-        parentId: 2002,
+        type: 'Week End/Holiday',
+        studentId: 166, //5900070 Ekawat Thaworn 
+        parentId: 384, //ปกรณ์ ถาวร pearl@pea.co.th 0816074297
         leaveType: 'Weekend/Holiday',
         reason: 'Home visiting',
         remarks: 'Please let me know before you are living.',
@@ -13,18 +14,20 @@ const getLeave = (id) => {
 
 const getLeaveDetail = id => {
     return [{
-            date: '2019-11-25 13:52',
-            tripId: 12,
+            type: 'DEPART',
+            date: ,
+            timeTableId: 12,
             stationId: 1,
-            pickup: '2',
-            pickupInfo: "You have to get home alone."
+            contact: '2',
+            contactInfo: "You have to get home alone."
         },
         {
-            date: null,
-            tripId: 18,
-            stationId: 2,
-            dropOff: '1',
-            dropOffInfo: "You have to come to school alone."
+            type: 'ARRIVE',
+            date: '2019-11-25 13:52',
+            timeTableId: null,
+            stationId: null,
+            contact: '1',
+            contactInfo: "You have to come to school alone."
         }
     ]
 }

@@ -75,7 +75,7 @@ exports.render = () => {
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เวลารถออก:</ion-label>
-                                <ion-select required interface="popover" data-depart_trip_id>
+                                <ion-select required interface="popover" data-depart_time_table_id>
                                 </ion-select>
                             </ion-item>
                         </ion-col>
@@ -147,7 +147,7 @@ exports.render = () => {
                         <ion-col>
                             <ion-item>
                                 <ion-label position="floating">เวลารถออก:</ion-label>
-                                <ion-select required interface="popover" data-arrive_trip_id>
+                                <ion-select required interface="popover" data-arrive_time_table_id>
                                 </ion-select>
                             </ion-item>
                         </ion-col>
@@ -191,6 +191,14 @@ exports.render = () => {
                             </ion-item>
                         </ion-col>
                     </ion-row>
+                    <ion-row data-cancelled_row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-checkbox slot="start" data-cancelled></ion-checkbox>
+                                <ion-label>ยกเลิก</ion-label>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
                 </div>
                 <div padding>
                     <ion-button size="large" type="submit" expand="block">Save</ion-button>
@@ -200,17 +208,3 @@ exports.render = () => {
     </ion-grid>
 </form>`;
 };
-/*
-    this.body.querySelector("[data-depart_id]").value = depart.tripId;
-    this.body.querySelector("[data-depart_vehicle_id]").value = depart.vehicleId;
-    this.body.querySelector("[data-depart_trip_id]").value = depart.tripId;
-    this.body.querySelector("[data-depart_station_id]").value = depart.stationId;
-    this.body.querySelector("[data-depart_by]").value = depart.by;
-    this.body.querySelector("[data-arrive_info]").value = arrive.info;
-    this.body.querySelector("[data-arrive_id]").value = arrive.tripId;
-    this.body.querySelector("[data-arrive_vehicle_id]").value = arrive.vehicleId;
-    this.body.querySelector("[data-arrive_trip_id]").value = arrive.tripId;
-    this.body.querySelector("[data-arrive_station_id]").value = arrive.stationId;
-    this.body.querySelector("[data-arrive_by]").value = arrive.by;
-    this.body.querySelector("[data-arrive_info]").value = arrive.info;
-*/
