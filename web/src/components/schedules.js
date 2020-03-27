@@ -28,13 +28,13 @@ class Schedule extends NTask {
         });
     }
     addEventListener() {
-        this.edit();
+        this.headerClick();
         this.delete();
     }
-    edit() {
-        const btns = this.body.querySelectorAll("[btn-edit]");
-        [...btns].map(btn => {
-            btn.addEventListener("click", e => {
+    headerClick() {
+        const rows = this.body.querySelectorAll("[sch-row]");
+        [...rows].map(row => {
+            row.addEventListener("click", e => {
                 e.preventDefault();
                 const id = e.target.getAttribute("data-id");
                 const opts = {
@@ -49,7 +49,14 @@ class Schedule extends NTask {
                     if (err) {
                         this.emit("error", err);
                     } else {
-                        this.emit("edit", data);
+                        var old = this.body.querySelector(`[style="background-color: rgb(247, 220, 111);"]`);
+                        if(old != null) {
+                            old.style.backgroundColor = null;
+                        }
+                        row.style.backgroundColor = "#F7DC6F";
+                        var ttb = this.body.querySelector('[ttb-details]');
+                        ttb.innerHTML = Template.renderTimeTable(data);
+                        ttb.scrollIntoView();
                     }
                 })
             });

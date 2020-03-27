@@ -19,7 +19,9 @@ module.exports = app => {
                         include: [Stations]
                     }]
                 })
-                .then(result => res.json(result))
+                .then(result => {
+                    res.json(result)
+                })
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
                 });
@@ -56,16 +58,28 @@ module.exports = app => {
                     res.status(412).json({ msg: error.message });
                 });
         })
-
-    .delete((req, res) => {
-        Schedules.destroy({
-                where: {
-                    id: req.params.id
-                }
-            })
-            .then(result => res.sendStatus(204))
-            .catch(error => {
-                res.status(412).json({ msg: error.message });
-            });
-    });
+        .put((req, res) => {
+            Schedules.update(req.body, {
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(result => {
+                    res.status(200).json(result);
+                })
+                .catch(error => res.status(412).json({ msg: error.message }));
+        })
+        .delete((req, res) => {
+            Schedules.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                .then(result => { 
+                    res.status(200).json(result);
+                })
+                .catch(error => {
+                    res.status(412).json({ msg: error.message });
+                });
+        });
 };
