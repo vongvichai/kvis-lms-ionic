@@ -114,9 +114,9 @@ class App {
     }
     scheduleEvents() {
         this.schedules.on("error", err => alert(`Schedule error: \n ${err}`));
-        this.schedules.on("create", s => alert(`Schedule created: \n ${s}`));
+        this.schedules.on("create", s => alert(`Schedule created: success`));
         this.schedules.on("edit", s => this.ScheduleForm.render(s));
-        this.schedules.on("delete", s => alert(`Schedule delete: \n ${s}`));
+        this.schedules.on("delete", s => alert(`Schedule delete: success`));
     }
     stationEvents() {
         this.stations.on("error", err => alert(`Station error: \n ${err}`));

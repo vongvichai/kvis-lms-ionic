@@ -29,12 +29,16 @@ class Schedule extends NTask {
     }
     addEventListener() {
         this.headerClick();
+        this.add();
+        this.edit();
         this.delete();
+        this.save();
+        this.close();
     }
     headerClick() {
-        const rows = this.body.querySelectorAll("[sch-row]");
-        [...rows].map(row => {
-            row.addEventListener("click", e => {
+        const btns = this.body.querySelectorAll("[btn-sch-details]");
+        [...btns].map(btn => {
+            btn.addEventListener("click", e => {
                 e.preventDefault();
                 const id = e.target.getAttribute("data-id");
                 const opts = {
@@ -53,7 +57,8 @@ class Schedule extends NTask {
                         if(old != null) {
                             old.style.backgroundColor = null;
                         }
-                        row.style.backgroundColor = "#F7DC6F";
+                        const row = this.body.querySelectorAll(`ion-row[data-id='${id}']`)
+                        row[0].style.backgroundColor = "#F7DC6F";
                         var ttb = this.body.querySelector('[ttb-details]');
                         ttb.innerHTML = Template.renderTimeTable(data);
                         ttb.scrollIntoView();
@@ -62,8 +67,55 @@ class Schedule extends NTask {
             });
         })
     }
+    add() {
+        const btn = this.body.querySelector("[btn-sch-add]");
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            const fromDate = this.body.querySelector("[data-fromdate]");
+            const toDate = this.body.querySelector("[data-todate]");
+            const opts = {
+                method: "POST",
+                url: `${this.URL}/schedules`,
+                json: true,
+                headers: {
+                    authorization: localStorage.getItem("token")
+                },
+                body: {
+                    fromDate: fromDate.value,
+                    toDate: toDate.value
+                }
+            };
+            this.request(opts, (err, res, data) => {
+                if (err) {
+                    this.emit("error", err);
+                } else {
+                    this.emit("create", data);
+                    this.render();
+                }
+            })
+        })
+    }
+    edit() {
+        const btns = this.body.querySelectorAll("[btn-sch-edit]");
+        [...btns].map(btn => {
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+                const id = e.target.getAttribute("data-id");
+                const inputs = this.body.querySelectorAll(`ion-input[data-id='${id}']`);
+                inputs.forEach(e => {
+                    e.readonly = false;
+                })
+                const buttons = this.body.querySelectorAll(`ion-button[data-id='${id}']`);
+                buttons[0].style.display = "none";
+                buttons[1].style.display = "none";
+                buttons[2].style.display = "none";
+                buttons[3].style.display = "";
+                buttons[4].style.display = "";
+            });
+        })
+    }
     delete() {
-        const btns = this.body.querySelectorAll("[btn-delete]");
+        const btns = this.body.querySelectorAll("[btn-sch-delete]");
         [...btns].map(btn => {
             btn.addEventListener("click", e => {
                 e.preventDefault();
@@ -74,15 +126,81 @@ class Schedule extends NTask {
                     json: true,
                     headers: {
                         authorization: localStorage.getItem("token")
-                    }
+                    },
+                    body: {}
                 };
                 this.request(opts, (err, res, data) => {
                     if (err) {
                         this.emit("error", err);
                     } else {
                         this.emit("delete", data);
+                        this.render();
                     }
                 })
+            });
+        })
+    }
+    save() {
+        const forms = this.body.querySelectorAll("form");
+        [...forms].map(form => {
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const id = e.target.getAttribute("data-id");
+                const inputs = this.body.querySelectorAll(`ion-input[data-id='${id}']`);
+                const fromDate = inputs[0];
+                const toDate = inputs[1];
+                const opts = {
+                    method: "PUT",
+                    url: `${this.URL}/schedules/${id}`,
+                    json: true,
+                    headers: {
+                        authorization: localStorage.getItem("token")
+                    },
+                    body: {
+                        fromDate: new Date(fromDate.value),
+                        toDate: new Date(toDate.value)
+                    }
+                };
+                this.request(opts, (err, resp, data) => {
+                    if (err || resp.status === 412) {
+                        this.emit("error", err);
+                    } else {
+                        inputs.forEach(e => {
+                            e.readonly = true;
+                        })
+                        const buttons = this.body.querySelectorAll(`ion-button[data-id='${id}']`);
+                        buttons[0].style.display = "";
+                        buttons[1].style.display = "";
+                        buttons[2].style.display = "";
+                        buttons[3].style.display = "none";
+                        buttons[4].style.display = "none";
+                        fromDate.setAttribute("initial-val", `${fromDate.value}`);
+                        toDate.setAttribute("initial-val", `${toDate.value}`)
+                    }
+                });
+            });
+        })
+    }
+    close() {
+        const btns = this.body.querySelectorAll("[btn-sch-close]");
+        [...btns].map(btn => {
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+                const id = e.target.getAttribute("data-id");
+                const inputs = this.body.querySelectorAll(`ion-input[data-id='${id}']`);
+                const fromDate = inputs[0];
+                const toDate = inputs[1];
+                inputs.forEach(e => {
+                    e.readonly = true;
+                })
+                const buttons = this.body.querySelectorAll(`ion-button[data-id='${id}']`);
+                buttons[0].style.display = "";
+                buttons[1].style.display = "";
+                buttons[2].style.display = "";
+                buttons[3].style.display = "none";
+                buttons[4].style.display = "none";
+                fromDate.value = fromDate.getAttribute("initial-val");
+                toDate.value = toDate.getAttribute("initial-val");
             });
         })
     }
