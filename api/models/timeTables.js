@@ -5,10 +5,6 @@ module.exports = (sequelize, DataType) => {
             primaryKey: true,
             autoIncrement: true
         },
-        trip: {
-            type: DataType.INTEGER,
-            allowNull: false
-        },
         tripType: {
             type: DataType.ENUM('IN', 'OUT'),
             allowNull: false

@@ -16,51 +16,51 @@ Schedules.hasMany(TimeTables);
 const schedules_array = [{
         "fromDate": "2019-05-01 00:00:00",
         "toDate": "2019-05-04 00:00:00",
-        "timeTable": [{ "trip": 1, "out_kvis": "", "in_kvis": "2019-05-06 16:00:00" }]
+        "timeTable": [{ "out_kvis": "", "in_kvis": "2019-05-06 16:00:00" }]
     },
     {
         "fromDate": "2019-05-07 00:00:00",
         "toDate": "2019-05-09 00:00:00",
-        "timeTable": [{ "trip": 2, "out_kvis": "2019-05-10 17:00:00", "in_kvis": "2019-05-11 16:00:00" },
-            { "trip": 2, "out_kvis": "", "in_kvis": "2019-05-12 07:00:00" }
+        "timeTable": [{ "out_kvis": "2019-05-10 17:00:00", "in_kvis": "2019-05-11 16:00:00" },
+            { "out_kvis": "", "in_kvis": "2019-05-12 07:00:00" }
         ]
     },
     {
         "fromDate": "2019-05-12 00:00:00",
         "toDate": "2019-05-14 00:00:00",
-        "timeTable": [{ "trip": 3, "out_kvis": "2019-05-17 17:00:00", "in_kvis": "2019-05-20 16:00:00" },
-            { "trip": 3, "out_kvis": "2019-05-18 08:30:00", "in_kvis": "" }
+        "timeTable": [{ "out_kvis": "2019-05-17 17:00:00", "in_kvis": "2019-05-20 16:00:00" },
+            { "out_kvis": "2019-05-18 08:30:00", "in_kvis": "" }
         ]
     },
     {
         "fromDate": "2019-05-19 00:00:00",
         "toDate": "2019-05-21 00:00:00",
-        "timeTable": [{ "trip": 4, "out_kvis": "2019-05-24 17:00:00", "in_kvis": "2019-05-26 16:00:00" },
-            { "trip": 4, "out_kvis": "2019-05-25 13:00:00", "in_kvis": "" }
+        "timeTable": [{ "out_kvis": "2019-05-24 17:00:00", "in_kvis": "2019-05-26 16:00:00" },
+            { "out_kvis": "2019-05-25 13:00:00", "in_kvis": "" }
         ]
     },
     {
         "fromDate": "2019-05-27 00:00:00",
         "toDate": "2019-05-30 00:00:00",
-        "timeTable": [{ "trip": 5, "out_kvis": "2019-05-31 17:00:00", "in_kvis": "2019-06-03 16:00:00" },
-            { "trip": 5, "out_kvis": "2019-06-01 08:30:00", "in_kvis": "" },
-            { "trip": 5, "out_kvis": "2019-06-01 13:00:00", "in_kvis": "" }
+        "timeTable": [{ "out_kvis": "2019-05-31 17:00:00", "in_kvis": "2019-06-03 16:00:00" },
+            { "out_kvis": "2019-06-01 08:30:00", "in_kvis": "" },
+            { "out_kvis": "2019-06-01 13:00:00", "in_kvis": "" }
         ]
     },
     {
         "fromDate": "2019-06-02 00:00:00",
         "toDate": "2019-06-04 00:00:00",
-        "timeTable": [{ "trip": 6, "out_kvis": "2019-06-07 17:00:00", "in_kvis": "2019-06-09 16:00:00" }]
+        "timeTable": [{ "out_kvis": "2019-06-07 17:00:00", "in_kvis": "2019-06-09 16:00:00" }]
     },
     {
         "fromDate": "2019-06-10 00:00:00",
         "toDate": "2019-06-12 00:00:00",
-        "timeTable": [{ "trip": 7, "out_kvis": "2019-06-14 17:00:00", "in_kvis": "2019-06-16 16:00:00" }]
+        "timeTable": [{ "out_kvis": "2019-06-14 17:00:00", "in_kvis": "2019-06-16 16:00:00" }]
     },
     {
         "fromDate": "2019-06-17 00:00:00",
         "toDate": "2019-06-20 00:00:00",
-        "timeTable": [{ "trip": 8, "out_kvis": "2019-06-21 17:00:00", "in_kvis": "2019-06-23 16:00:00" }]
+        "timeTable": [{ "out_kvis": "2019-06-21 17:00:00", "in_kvis": "2019-06-23 16:00:00" }]
     },
 ];
 
@@ -79,7 +79,6 @@ Schedules.sync({ force: true }).done(async() => {
                 o.timeTable.map(t => {
                     if (t.out_kvis) {
                         TimeTables.create({
-                            trip: t.trip,
                             tripType: 'OUT',
                             datetime: new Date(t.out_kvis + 'Z'),
                             ScheduleId: s.id
