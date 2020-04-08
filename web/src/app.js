@@ -10,6 +10,7 @@ import Schedule from "./components/schedules.js";
 import ScheduleForm from "./components/scheduleForm.js";
 import Station from "./components/stations.js";
 import LeaveForm from "./components/leaveForm.js";
+import TimeTable from "./components/timeTable.js";
 
 class App {
     constructor(body, footer) {
@@ -26,6 +27,7 @@ class App {
         this.ScheduleForm = new ScheduleForm(body);
         this.stations = new Station(body);
         this.LeaveForm = new LeaveForm(body);
+        this.TimeTable = new TimeTable(body);
     }
     init() {
         this.signin.render();
@@ -43,6 +45,7 @@ class App {
         this.scheduleEvents();
         this.stationEvents();
         this.leaveFormEvents();
+        this.timeTableEvents();
     }
     clear() {
         this.body.innerHTML = ""
@@ -115,8 +118,9 @@ class App {
     scheduleEvents() {
         this.schedules.on("error", err => alert(`Schedule error: \n ${err}`));
         this.schedules.on("create", s => alert(`Schedule created: success`));
-        this.schedules.on("edit", s => this.ScheduleForm.render(s));
+        this.schedules.on("click", s => this.TimeTable.renderTimeTable(s));
         this.schedules.on("delete", s => alert(`Schedule delete: success`));
+        this.schedules.on("save", s => alert(`Schedule saved: success`));
     }
     stationEvents() {
         this.stations.on("error", err => alert(`Station error: \n ${err}`));
@@ -129,6 +133,12 @@ class App {
     leaveFormEvents() {
         this.LeaveForm.on("error", err => alert(`Leave form error: ${err}`))
         this.LeaveForm.on("submit", () => alert(`Leave form submitted.`))
+    }
+    timeTableEvents() {
+        this.TimeTable.on("error", err => alert(`TimeTable error: \n ${err}`));
+        this.TimeTable.on("create", s => alert(`TimeTable created: success`));
+        this.TimeTable.on("delete", s => alert(`TimeTable delete: success`));
+        this.TimeTable.on("save", s => alert(`TimeTable saved: success`));
     }
 }
 

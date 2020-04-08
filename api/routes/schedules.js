@@ -70,16 +70,27 @@ module.exports = app => {
                 .catch(error => res.status(412).json({ msg: error.message }));
         })
         .delete((req, res) => {
-            Schedules.destroy({
-                    where: {
-                        id: req.params.id
-                    }
-                })
-                .then(result => { 
-                    res.status(200).json(result);
-                })
-                .catch(error => {
-                    res.status(412).json({ msg: error.message });
-                });
+            Schedules.findOne({
+                where: {
+                    id: req.params.id
+                },
+                include: [{
+                    model: TimeTables,
+                    as: "TimeTables",
+                    include: [Stations]
+                }]
+            })
+            .then(result => {
+                if (result) {
+                    result.destroy().then(r => {
+                        res.json(result);
+                    });
+                } else {
+                    res.sendStatus(412);
+                }
+            })
+            .catch(error => {
+                res.status(412).json({ msg: error.message });
+            });
         });
 };

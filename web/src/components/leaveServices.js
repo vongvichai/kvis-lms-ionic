@@ -15,7 +15,7 @@ const getLeave = (id) => {
 const getLeaveDetail = id => {
     return [{
             type: 'DEPART',
-            date: ,
+            date: '',
             timeTableId: 12,
             stationId: 1,
             contact: '2',

@@ -1,5 +1,6 @@
 import NTask from "../ntask.js";
 import Template from "../templates/schedules.js";
+import moment from "moment-timezone";
 
 class Schedule extends NTask {
     constructor(body) {
@@ -30,6 +31,7 @@ class Schedule extends NTask {
     addEventListener() {
         this.headerClick();
         this.add();
+        this.ref();
         this.edit();
         this.delete();
         this.save();
@@ -41,29 +43,13 @@ class Schedule extends NTask {
             btn.addEventListener("click", e => {
                 e.preventDefault();
                 const id = e.target.getAttribute("data-id");
-                const opts = {
-                    method: "GET",
-                    url: `${this.URL}/schedules/${id}`,
-                    json: true,
-                    headers: {
-                        authorization: localStorage.getItem("token")
-                    }
-                };
-                this.request(opts, (err, res, data) => {
-                    if (err) {
-                        this.emit("error", err);
-                    } else {
-                        var old = this.body.querySelector(`[style="background-color: rgb(247, 220, 111);"]`);
-                        if(old != null) {
-                            old.style.backgroundColor = null;
-                        }
-                        const row = this.body.querySelectorAll(`ion-row[data-id='${id}']`)
-                        row[0].style.backgroundColor = "#F7DC6F";
-                        var ttb = this.body.querySelector('[ttb-details]');
-                        ttb.innerHTML = Template.renderTimeTable(data);
-                        ttb.scrollIntoView();
-                    }
-                })
+                var old = this.body.querySelector(`[style="background-color: rgb(247, 220, 111);"]`);
+                if(old != null) {
+                    old.style.backgroundColor = null;
+                }
+                const row = this.body.querySelectorAll(`ion-row[data-id='${id}']`)
+                row[0].style.backgroundColor = "#F7DC6F";
+                this.emit("click", id);
             });
         })
     }
@@ -95,6 +81,15 @@ class Schedule extends NTask {
             })
         })
     }
+    ref() {
+        const btn = this.body.querySelector("[btn-sch-add-ref]");
+        const form = this.body.querySelector("[form-add-sch]");
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            form.querySelector(`[data-fromdate]`).value = "";
+            form.querySelector(`[data-todate]`).value = "";
+        })
+    }
     edit() {
         const btns = this.body.querySelectorAll("[btn-sch-edit]");
         [...btns].map(btn => {
@@ -120,23 +115,25 @@ class Schedule extends NTask {
             btn.addEventListener("click", e => {
                 e.preventDefault();
                 const id = e.target.getAttribute("data-id");
-                const opts = {
-                    method: "DELETE",
-                    url: `${this.URL}/schedules/${id}`,
-                    json: true,
-                    headers: {
-                        authorization: localStorage.getItem("token")
-                    },
-                    body: {}
-                };
-                this.request(opts, (err, res, data) => {
-                    if (err) {
-                        this.emit("error", err);
-                    } else {
-                        this.emit("delete", data);
-                        this.render();
-                    }
-                })
+                if(confirm("Are you sure you want to delete?")){
+                    const opts = {
+                        method: "DELETE",
+                        url: `${this.URL}/schedules/${id}`,
+                        json: true,
+                        headers: {
+                            authorization: localStorage.getItem("token")
+                        },
+                        body: {}
+                    };
+                    this.request(opts, (err, res, data) => {
+                        if (err) {
+                            this.emit("error", err);
+                        } else {
+                            this.emit("delete", data);
+                            this.render();
+                        }
+                    })
+                }
             });
         })
     }
@@ -147,8 +144,8 @@ class Schedule extends NTask {
                 e.preventDefault();
                 const id = e.target.getAttribute("data-id");
                 const inputs = this.body.querySelectorAll(`ion-input[data-id='${id}']`);
-                const fromDate = inputs[0];
-                const toDate = inputs[1];
+                const fromDate = moment.tz(`${inputs[0].value}`, 'Asia/Bangkok');
+                const toDate = moment.tz(`${inputs[1].value}`, 'Asia/Bangkok');
                 const opts = {
                     method: "PUT",
                     url: `${this.URL}/schedules/${id}`,
@@ -156,15 +153,13 @@ class Schedule extends NTask {
                     headers: {
                         authorization: localStorage.getItem("token")
                     },
-                    body: {
-                        fromDate: new Date(fromDate.value),
-                        toDate: new Date(toDate.value)
-                    }
+                    body: { fromDate, toDate }
                 };
                 this.request(opts, (err, resp, data) => {
                     if (err || resp.status === 412) {
                         this.emit("error", err);
                     } else {
+                        this.emit("save", data);
                         inputs.forEach(e => {
                             e.readonly = true;
                         })
@@ -174,8 +169,8 @@ class Schedule extends NTask {
                         buttons[2].style.display = "";
                         buttons[3].style.display = "none";
                         buttons[4].style.display = "none";
-                        fromDate.setAttribute("initial-val", `${fromDate.value}`);
-                        toDate.setAttribute("initial-val", `${toDate.value}`)
+                        inputs[0].setAttribute("initial-val", `${fromDate.format().slice(0, 10)}`);
+                        inputs[1].setAttribute("initial-val", `${toDate.format().slice(0, 10)}`);
                     }
                 });
             });
