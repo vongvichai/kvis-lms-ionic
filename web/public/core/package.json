@@ -55,7 +55,7 @@
     "jest-cli": "23.6.0",
     "np": "^3.0.4",
     "pixelmatch": "4.0.2",
-    "puppeteer": "1.11.0",
+    "puppeteer": "5.2.1",
     "rollup": "1.1.2",
     "rollup-plugin-node-resolve": "4.0.0",
     "stylelint": "9.10.1",
